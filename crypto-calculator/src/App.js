@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import { saveAs } from "file-saver";
 import CryptoTable from "./CryptoTable/CryptoTable";
 import Bitcoin from "./Bitcoin/Bitcoin";
 import Cardano from "./Cardano/Cardano";
 import Ethereum from "./Ethereum/Ethereum";
-import ExportButtons from "./ExportButtons/ExportButtons";
 
 import "./App.css";
 
@@ -55,11 +53,26 @@ const handleExportCSV = () => {
   link.click();
 };
 
- const handleLoadData = () => {
-  
+const cryptocurrencyData = {
+  bitcoin: { name: "Bitcoin", percentage: 5, icon: "bitcoin-icon.png" },
+  ethereum: { name: "Ethereum", percentage: 4.1, icon: "ethereum-icon.png" },
+  cardano: { name: "Cardano", percentage: 1, icon: "cardano-icon.png" },
+};
 
-   setDataLoaded(true);
- };
+const handleLoadData = () => {
+  const calculatedCryptoData = Object.entries(cryptocurrencyData).map(
+    ([crypto, data]) => ({
+      crypto: data.name,
+      balance: (balance * data.percentage) / 100,
+      investment: balance,
+      icon: data.icon,
+    })
+  );
+
+  setCryptoData((prevData) => [...prevData, ...calculatedCryptoData]);
+  setDataLoaded(true);
+};
+
 
   return (
     <div className="App">
